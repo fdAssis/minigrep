@@ -13,13 +13,12 @@ use std::io::prelude::*;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let query = &args[1];
-    let filename = &args[2];
+    let config = Config::new(&args);
 
-    println!("Searching for: {} ", query);
-    println!("In file: {} ", filename);
+    println!("Searching for: {} ", config.query);
+    println!("In file: {} ", config.filename);
 
-    let mut file = File::open(filename).expect("file not found");
+    let mut file = File::open(config.filename).expect("file not found");
 
     let mut contents = String::new();
     file.read_to_string(&mut contents)
@@ -28,4 +27,18 @@ fn main() {
     println!("With text:\n{}", contents);
 
     println!("file:\n{:?}", file);
+}
+
+struct Config<'a> {
+    query: &'a String,
+    filename: &'a String,
+}
+
+impl<'a> Config<'a> {
+    fn new(args: &'a Vec<String>) -> Self {
+        let query = &args[1];
+        let filename = &args[2];
+
+        Self { query, filename }
+    }
 }
