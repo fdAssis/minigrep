@@ -8,9 +8,19 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let mut contents = String::new();
     file.read_to_string(&mut contents)?;
 
-    println!("With text:\n{}", contents);
-
     Ok(())
+}
+
+pub fn search<'a>(query: &'a str, contents: &'a str) -> Vec<&'a str> {
+    let mut outcome: Vec<&str> = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            outcome.push(line);
+        }
+    }
+
+    outcome
 }
 
 pub struct Config<'a> {
