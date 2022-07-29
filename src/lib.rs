@@ -23,6 +23,19 @@ pub fn search<'a>(query: &'a str, contents: &'a str) -> Vec<&'a str> {
     outcome
 }
 
+pub fn search_case_insensitive<'a>(query: &'a str, contents: &'a str) -> Vec<&'a str> {
+    let query = query.to_lowercase();
+    let mut outcome = Vec::new();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            outcome.push(line);
+        }
+    }
+
+    outcome
+}
+
 pub struct Config<'a> {
     query: &'a String,
     filename: &'a String,
