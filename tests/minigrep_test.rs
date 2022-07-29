@@ -1,11 +1,22 @@
-use minigrep::{run, search, Config};
+use minigrep::{run, search, search_case_insensitive, Config};
 
 #[test]
-fn search_line_with_string_parsed() {
+fn search_line_with_string_case_sensitive() {
     let query = "duct";
     let contents = "\nRust:\nsafe, fast, productive.\nPick three.";
 
     assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+}
+
+#[test]
+fn search_line_with_string_case_insensitive() {
+    let query = "rUsT";
+    let contents = "\nRust:\nsafe, fast, productive.\nPick three.\nTrust me.";
+
+    assert_eq!(
+        vec!["Rust:", "Trust me."],
+        search_case_insensitive(query, contents)
+    );
 }
 
 #[test]
